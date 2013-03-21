@@ -25,10 +25,13 @@ class SubscribersController < ApplicationController
   end
 
   def create
+    admin = (params[:subscriber][:admin] == '1')
+    params[:subscriber].delete :admin
     @subscriber = Subscriber.new(params[:subscriber])
     if params[:subscriber][:password].present? || params[:subscriber][:password_confirmation].present?
       @subscriber.saving_password = true
     end
+    @subscriber.admin = admin
     if @subscriber.save
       if logged_in? && admin?
         flash[:notice] = 'Subscriber was successfully created.'
