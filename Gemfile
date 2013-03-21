@@ -13,8 +13,10 @@ gem "dynamic_form"
 gem "haml"
 gem "htmlentities"
 gem "jquery-rails"
-gem "postmark-rails"
-gem "postmark"
+
+#gem "postmark-rails"
+#gem "postmark"
+
 gem "redis"
 gem "resque", require: "resque/server"
 gem "will_paginate"
