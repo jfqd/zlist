@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(:version => 20110526162141) do
     t.string   "name"
     t.text     "description"
     t.string   "short_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.boolean  "private",            :default => false
     t.string   "subject_prefix"
     t.boolean  "archive_disabled",   :default => false
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(:version => 20110526162141) do
     t.string   "subject"
     t.string   "body"
     t.integer  "subscriber_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "messages", ["subscriber_id"], :name => "index_messages_on_subscriber_id"
@@ -44,16 +44,16 @@ ActiveRecord::Schema.define(:version => 20110526162141) do
   create_table "servers", :force => true do |t|
     t.string   "name"
     t.string   "key"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "subscribers", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "public_key"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.string   "password_hash"
     t.string   "password_salt"
     t.boolean  "admin",         :default => false
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(:version => 20110526162141) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "subscriber_id"
     t.integer  "list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "subscriptions", ["list_id"], :name => "index_subscriptions_on_list_id"
@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(:version => 20110526162141) do
   create_table "topics", :force => true do |t|
     t.integer  "list_id"
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.string   "key"
   end
 

@@ -5,18 +5,18 @@ module Inbound
     attr_accessor :subject, :to, :from, :cc, :headers, :html_body, :text_body, :attachments, :reply_to, :message_id, :mailbox_hash, :mailbox
 
     def initialize(email)
-      @subject      = email.fetch("Subject")
-      @to           = email.fetch("ToFull").first.fetch("Email")
-      @from         = email.fetch("FromFull").fetch("Email")
-      @cc           = email.fetch("Cc")
-      @headers      = email.fetch("Headers").map{|h| Header.new(h)}
-      @html_body    = HTMLEntities.new.decode(email.fetch("HtmlBody"))
-      @text_body    = email.fetch("TextBody")
-      @attachments  = email.fetch("Attachments").map{|a| Attachment.new(a)}
-      @reply_to     = email.fetch("ReplyTo")
-      @message_id   = email.fetch("MessageID")
-      @mailbox_hash = email.fetch("MailboxHash")
-      @mailbox      = @to.match(/^([\w\-]+)\+?([0-9a-f]*)\@([\w\.]+)$/).to_a[1..3].first
+      @subject      = smtp? ? email.fetch(:subject)      : email.fetch("Subject")
+      @to           = smtp? ? email.fetch(:to)           : email.fetch("ToFull").first.fetch("Email")
+      @from         = smtp? ? email.fetch(:from)         : email.fetch("FromFull").fetch("Email")
+      @cc           = smtp? ? email.fetch(:cc)           : email.fetch("Cc")
+      @headers      = smtp? ? email.fetch(:headers)      : email.fetch("Headers").map{|h| Header.new(h)}
+      @html_body    = smtp? ? email.fetch(:html)         : HTMLEntities.new.decode(email.fetch("HtmlBody"))
+      @text_body    = smtp? ? email.fetch(:text)         : email.fetch("TextBody")
+      @attachments  = smtp? ? nil                        : email.fetch("Attachments").map{|a| Attachment.new(a)}
+      @reply_to     = smtp? ? email.fetch(:reply)        : email.fetch("ReplyTo")
+      @message_id   = smtp? ? email.fetch(:message_id)   : email.fetch("MessageID")
+      @mailbox_hash = smtp? ? email.fetch(:mailbox_hash) : email.fetch("MailboxHash")
+      @mailbox      = smtp? ? email.fetch(:mailbox)      : @to.match(/^([\w\-]+)\+?([0-9a-f]*)\@([\w\.]+)$/).to_a[1..3].first
     end
 
     def process
@@ -53,6 +53,12 @@ module Inbound
       rescue => e
         Rails.logger.warn "SEND ERROR: #{e}"
       end
+    end
+    
+    private
+    
+    def smtp?
+      @smtp ||= ActionMailer::Base.delivery_method == :smtp
     end
 
   end

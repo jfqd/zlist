@@ -1,0 +1,20 @@
+development:
+  delivery_method: :smtp
+  smtp_settings:
+    enable_starttls_auto: true
+    address: "mail.example.com"
+    port: 25
+    domain: "example.com"
+    authentication: :plain
+    user_name: "noreply@example.com"
+    password: "secret"
+production:
+  delivery_method: :smtp
+  smtp_settings:
+    enable_starttls_auto: true
+    address: "mail.example.com"
+    port: 25
+    domain: "example.com"
+    authentication: :plain
+    user_name: "noreply@example.com"
+    password: "secret"

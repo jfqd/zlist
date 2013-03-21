@@ -16,7 +16,7 @@ class Mailman < ActionMailer::Base
     @address = email.to
     mail(
       :to      =>  email.from,
-      :subject =>  "Address does not exist at this server"
+      :subject =>  "Mailinglist '#{@address}' does not exist"
     )
   end
 
@@ -25,7 +25,7 @@ class Mailman < ActionMailer::Base
     @list = list.name
     mail(
       :to      => email.from,
-      :subject => "[#{list.name}] The topic you referenced no longer exists"
+      :subject => "[#{list.name}] Topic no longer exists: #{email.subject}"
     )
   end
 
@@ -35,7 +35,7 @@ class Mailman < ActionMailer::Base
       :to      => email.from,
       :subject => "Replies to this address are not monitored.",
       :body    => "We're sorry, but the mailer@#{ ENV['EMAIL_DOMAIN'] } address
-                  is not monitored for replies.  Your message has been discarded."
+                   is not monitored for replies. Your message has been discarded."
     )
   end
 
@@ -55,7 +55,11 @@ class Mailman < ActionMailer::Base
     # Determine the reply-to address
     reply_to_address = case topic.list.send_replies_to
     when "Subscribers"
-      "#{topic.list.short_name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"
+      if ActionMailer::Base.delivery_method == :smtp
+        "#{topic.list.short_name}@#{ENV['EMAIL_DOMAIN']}"
+      else
+        "#{topic.list.short_name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"
+      end
     when "Author"
       "#{message.author.name} <#{message.author.email}>"
     else
@@ -74,6 +78,8 @@ class Mailman < ActionMailer::Base
     headers['List-Post']        = topic.list.email
     headers['List-Unsubscribe'] = "http://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
     headers['Reply-To']         = reply_to_address
+    
+    headers['Topic'] = topic.name if ActionMailer::Base.delivery_method == :smtp
 
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",

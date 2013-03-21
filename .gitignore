@@ -1,7 +1,10 @@
+.DS_Store
 .bundle
+.rvmrc
 db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
 config/database.yml
 config/app_config.yml
+config/email.yml

@@ -15,14 +15,26 @@ module Zlist
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Set application ENV variables from a YAML file if running in development
+    # Set application ENV variables from a YAML file
     # In production (on Heroku), these should be set using built-in config vars
-    if Rails.env.development?
-      YAML.load(File.read("#{Rails.root}/config/app_config.yml"))[Rails.env].each do |k, v|
-        ENV[k] ||= v
-      end
+    YAML.load(File.read("#{Rails.root}/config/app_config.yml"))[Rails.env].each do |k, v|
+      ENV[k] ||= v
     end
-
+    
+    # Select delivery method
+    if File.exists?("#{Rails.root}/config/email.yml")
+      # Load Mailserver settings
+      config.action_mailer.perform_deliveries = true
+      YAML.load(File.read("#{Rails.root}/config/email.yml"))[Rails.env].each do |k, v|
+        v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
+        ActionMailer::Base.send("#{k}=", v)
+      end
+    else
+      # Send email using Postmark
+      config.action_mailer.delivery_method   = :postmark
+      config.action_mailer.postmark_settings = { :api_key => ENV['POSTMARK_API_KEY'] }
+    end
+    
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
@@ -53,16 +65,12 @@ module Zlist
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :email, :name, :admin]
 
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-
-    # Send email using Postmark
-    config.action_mailer.delivery_method   = :postmark
-    config.action_mailer.postmark_settings = { :api_key => ENV['POSTMARK_API_KEY'] }
   end
 end

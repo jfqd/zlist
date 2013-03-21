@@ -1,3 +1,5 @@
+# bundle --without postmark
+
 source "https://rubygems.org"
 
 gem "rails", "3.2.13"
@@ -14,8 +16,10 @@ gem "haml"
 gem "htmlentities"
 gem "jquery-rails"
 
-#gem "postmark-rails"
-#gem "postmark"
+group :postmark do
+  gem "postmark-rails"
+  gem "postmark"
+end
 
 gem "redis"
 gem "resque", require: "resque/server"

@@ -5,17 +5,62 @@ send mail to an unlimited number of recipients, can be configured as announcemen
 or it can be fully interactive.  Subscribers can view and reply entirely by email. All
 discussions are archived so you can go back anytime to see what was said.
 
-It accepts emails HTTP POSTed to a particular URL. Postmark (postmarkapp.com) is what
-we use and is what's officially supported for incoming email.  Postmark is also used
-for outgoing SMTP by default.
+Incoming mails are fetched from an IMAP account via cron task. Outgoing mails are send
+out via SMTP.
+
+As a feature the application accepts emails HTTP POSTed to a particular URL. Postmark
+(postmarkapp.com) is what we use for incoming email.
 
 ## Installation
 
 You can get the latest by downloading the master branch from GitHub, or you can grab the
 most recent tagged version on the downloads page at http://github.com/bensie/zlist/downloads
 
+Configure the application by creating your app_config.yml and database.yml files. Then run:
+
+### Regular Mailserver
+
+```
+bundle install --without postmark
+rake db:create
+rake db:migrate
+```
+
+### Postmark
+
+```
+bundle install
+rake db:create
+rake db:migrate
+```
+
+## Run the application
+
+To start the application in development mode run:
+
+```
+rails s
+```
+
+If you plan to use postmarkapp.com as a service a redis-server is required.
+
+For regular IMAP email fetching create a cron job as described below. If you plan to host
+multiple mailinglists make sure to create a cronjob for each mailinglist!
+
+## Fetch emails via cron
+
+Setup a cron entry.
+
+```
+*/5 * * * * zlist-user rake -f /path/to/zlist/Rakefile --silent zlist:email:receive_imap RAILS_ENV="production" username='mailinglist@example.com' password='password' host=mail.example.com port=993 ssl=true 1>/dev/null
+```
+
 ## Prerequisites
 
-ZList currently runs on Rails 3.2.0 and requires Ruby 1.9.
+ZList currently runs on Rails 3.2.x and requires Ruby 1.9.x
+
+## Contributors
+
++ [jfqd](https://github.com/jfqd) (Stefan Husch)
 
 Copyright (c) 2012 James Miller and David Hasson
