@@ -1,0 +1,15 @@
+---
+private.png: private.png
+private/index.png: private.png
+rails.png: rails.png
+rails/index.png: rails.png
+spinner.gif: spinner.gif
+spinner/index.gif: spinner.gif
+spinner3.gif: spinner3.gif
+spinner3/index.gif: spinner3.gif
+application.js: application.js
+application/index.js: application.js
+application.css: application.css
+application/index.css: application.css
+jquery.min.map: jquery.min.map
+jquery/index.min.map: jquery.min.map
