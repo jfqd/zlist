@@ -1,6 +1,7 @@
 class ServersController < ApplicationController
 
   before_filter :admin_required
+  before_filter :is_postmark?
   before_filter :find_server, :only => %w(show edit update destroy)
 
   respond_to :html
@@ -39,6 +40,10 @@ class ServersController < ApplicationController
 
   def find_server
     @server = Server.find(params[:id])
+  end
+  
+  def is_postmark?
+    redirect_to root_url unless Server.postmark?
   end
 
 end

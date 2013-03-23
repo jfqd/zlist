@@ -12,4 +12,13 @@ class Server < ActiveRecord::Base
   def generate_public_key
     self.key = Digest::SHA1.hexdigest([Time.now, rand].join)
   end
+  
+  def self.postmark?
+    ActionMailer::Base.delivery_method == :postmark
+  end
+  
+  def self.smtp?
+    ActionMailer::Base.delivery_method == :smtp
+  end
+  
 end

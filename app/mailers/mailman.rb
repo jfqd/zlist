@@ -55,7 +55,7 @@ class Mailman < ActionMailer::Base
     # Determine the reply-to address
     reply_to_address = case topic.list.send_replies_to
     when "Subscribers"
-      if ActionMailer::Base.delivery_method == :smtp
+      if Server.smtp?
         "#{topic.list.short_name}@#{ENV['EMAIL_DOMAIN']}"
       else
         "#{topic.list.short_name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"

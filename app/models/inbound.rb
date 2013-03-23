@@ -58,7 +58,7 @@ module Inbound
     private
     
     def smtp?
-      @smtp ||= ActionMailer::Base.delivery_method == :smtp
+      Server.smtp?
     end
 
   end
