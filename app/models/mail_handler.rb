@@ -2,6 +2,7 @@ class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
   
   def self.receive(email)
+    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
     super(email)
   end
 
@@ -44,16 +45,19 @@ class MailHandler < ActionMailer::Base
       end
       return false
     end
+    # split plain- and html-parts from email
+    text_part = email.text_part || email
+    html_part = email.html_part
+    header = email.header
     # create hash
     hash = {}
     hash[:subject]      = email.subject.to_s
     hash[:to]           = mailbox_address
     hash[:from]         = from
-    hash[:cc]           = email.cc.nil? ? '' : email.cc.join(', ')
-    hash[:headers]      = email.header_fields
-    # http://stackoverflow.com/questions/4868205/rails-mail-getting-the-body-as-plain-text
-    hash[:html]         = email.html_part ? email.html_part.body.decoded : nil
-    hash[:text]         = email.multipart? ? (email.text_part ? email.text_part.body.decoded : nil) : email.body.decoded
+    hash[:cc]           = email.cc.nil?  ? '' : email.cc.join(', ')
+    hash[:headers]      = "" # header.nil? || header.to_s.nil? ? [] : header.to_s.split("\r\n")
+    hash[:text]         = text_part.nil? ? '' : Zlist::Encoder.to_utf8(text_part.body.decoded, text_part.charset)
+    hash[:html]         = html_part.nil? ? '' : Zlist::Encoder.to_utf8(html_part.body.decoded, html_part.charset)
     hash[:reply]        = email.reply_to
     hash[:message_id]   = email.message_id
     hash[:mailbox_hash] = '' #mailbox
@@ -62,7 +66,7 @@ class MailHandler < ActionMailer::Base
     if email.has_attachments?
     end
     # debug
-    # puts "hash= #{hash.inspect}"
+    puts "hash= #{hash.inspect}"
     # process email
     Inbound::Email.new(hash).process
     #

@@ -79,7 +79,7 @@ class Mailman < ActionMailer::Base
     headers['List-Unsubscribe'] = "http://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
     headers['Reply-To']         = reply_to_address
     
-    headers['Topic'] = topic.name if ActionMailer::Base.delivery_method == :smtp
+    headers['X-topic'] = topic.id.to_s if Server.smtp?
 
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
