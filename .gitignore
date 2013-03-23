@@ -12,3 +12,7 @@ config/email.yml
 Capfile
 config/deploy.rb
 doc/
+public/assets/application.css
+public/assets/application.css.gz
+public/assets/application.js
+public/assets/application.js.gz
