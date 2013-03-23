@@ -1,0 +1,9 @@
+%tr
+  %td.name-email
+    %span.name
+      = link_to subscriber.name, edit_subscriber_path(subscriber)
+    %span.email
+      = subscriber.email
+  %td
+    %span.lists
+      = subscriber.lists.collect{|l| link_to(h(l.name), l)}.join(", ").html_safe

@@ -1,0 +1,14 @@
+%h2 
+  Topics for
+  = link_to @list.email, list_path(@list)
+
+%table.table.table-striped.table-hover.table-bordered
+  %thead
+    %tr
+      %th Subject
+      %th Last Message
+      %th Message Count
+  %tbody
+    = render @topics
+
+= will_paginate @topics

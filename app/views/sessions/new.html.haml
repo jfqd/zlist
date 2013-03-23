@@ -1,0 +1,10 @@
+= form_for :sessions, url: sessions_path, :html => {:class => "form-signin"} do |f|
+  = bs_text_field(f, :login, "Email")
+  = bs_password_field(f, :password, "Password")
+
+  .actions
+    = f.submit "Log in", class: "btn primary"
+
+%p.text-center
+  Don't have an account?
+  = link_to "Sign up!", signup_path

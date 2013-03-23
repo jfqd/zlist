@@ -1,6 +1,7 @@
 !!! 5
 %html
   %head
+    %meta{ :charset => "UTF-8" }
     %title= "#{ENV["EMAIL_DOMAIN"]}: Login"
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
@@ -9,8 +10,4 @@
     .container
       - flash.each do |name, msg|
         = content_tag :div, msg, id: "flash_#{name}", class: "alert-message #{name}"
-      .row
-        .span8.columns.offset4
-          %h1{style: "text-align: center;"}
-            = ENV["EMAIL_DOMAIN"]
-          = yield
+      = yield

@@ -1,0 +1,4 @@
+%h= @topic.name
+%p= link_to "[all topics]", list_topics_path(@list)
+= render :partial => @messages
+= will_paginate @messages

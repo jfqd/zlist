@@ -1,0 +1,10 @@
+%p
+  %strong Name:
+  = @subscriber.name
+%p
+  %strong Email:
+  = @subscriber.email
+
+= link_to 'Edit', edit_subscriber_path(@subscriber)
+|
+= link_to 'Back', subscribers_path 

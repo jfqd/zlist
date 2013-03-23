@@ -1,0 +1,6 @@
+%tr
+  - if admin?
+    %td= link_to h(subscription.subscriber.name), subscription.subscriber
+    %td= link_to 'Remove', subscription, :method => :delete, :class => 'small red', :confirm => "Are you sure?"
+  - else
+    %td{:colspan => "2"}= subscription.subscriber.name

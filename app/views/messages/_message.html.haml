@@ -1,0 +1,10 @@
+%tr
+  %td
+    = message.author.name
+    &lt;
+    = message.author.email
+    &gt;
+  %td= message.created_at.getlocal.strftime('%b %d %Y, %I:%M %p')
+%tr
+  %td{ :colspan => 2 }
+    %pre= message.body_clean

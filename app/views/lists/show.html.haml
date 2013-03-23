@@ -1,0 +1,33 @@
+- content_for :top_right do
+  - if admin?
+    = link_to 'Edit List', edit_list_path(@list), class: "btn large"
+    = link_to 'Delete List', list_path(@list), class: "btn large", :method => :delete, :confirm => "Are you sure?"
+  - else
+    - if @list.subscribers.include?(current_user)
+      You are subscribed to this list
+      = link_to 'Unsubscribe', unsubscribe_list_path(@list)
+    - else
+      = link_to 'Subscribe', subscribe_list_path(@list)
+
+%h2= @list.email
+%p= @list.description
+
+%h3 Subscribers
+
+- if admin?
+  = render 'subscriptions/form'
+
+%table.table.table.table-striped.table-hover.table-bordered.subscribers-topics
+  = render @subscriptions
+
+%h3 Recent Topics
+      
+%table.table.table.table-striped.table-hover.table-bordered.subscribers-topics
+  - if @list.topics.present?
+    - @list.topics.each do |topic|
+      %tr
+        %td= link_to topic.name, list_topic_path(@list, topic)
+  - else
+    There are no recent topics for this list.
+
+= link_to "Show all Topics of this list", list_topics_path(@list)

@@ -1,0 +1,5 @@
+.search
+  %h2 Find a subscriber
+
+  = form_for :search, :url => "/subscribers/search", :method => :get do |f|
+    = f.text_field :q, :class => "big-field"

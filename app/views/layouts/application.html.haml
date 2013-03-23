@@ -1,36 +1,39 @@
 !!! 5
 %html
   %head
+    %meta{ :charset => "UTF-8" }
     %title
-      = ENV["EMAIL_DOMAIN"]
+      = "#{ENV["EMAIL_DOMAIN"]} | ZList"
       = yield :title
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    .container
-
-      - flash.each do |name, msg|
-        = content_tag :div, msg, id: "flash_#{name}", class: "alert-message #{name}"
-
-      .topbar
-        .topbar-inner
-          .container
-            %h3
-              = link_to ENV["EMAIL_DOMAIN"], root_path
+  
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          .brand
+            = link_to("ZList - #{ENV["EMAIL_DOMAIN"]}", root_path, :class => "brand")
+          .nav-collapse.collapse
             %ul.nav
               %li{class: @current_tab == "Lists" ? "active" : nil}
                 = link_to "Lists", lists_path
               %li{class: @current_tab == "Subscribers" ? "active" : nil}
                 = link_to "Subscribers", subscribers_path
-              %li{class: @current_tab == "Servers" ? "active" : nil}
-                = link_to "Servers", servers_path
-            %ul.nav.secondary-nav
-              %li
+              - if Server.postmark?
+                %li{class: @current_tab == "Servers" ? "active" : nil}
+                  = link_to "Servers", servers_path
+            .navbar-form.pull-right
+              .span2.text-right
                 = link_to current_user.name, edit_subscriber_path(current_user)
-              %li
+              .span2
                 = link_to "Logout", logout_path
+        
+    .container#main
 
+      - flash.each do |name, msg|
+        = content_tag :div, msg, id: "flash_#{name}", class: "alert-message #{name}"
 
       %div{style: "float:right"}
         = yield :top_right

@@ -1,0 +1,5 @@
+%h3= @message.subject
+
+= link_to( "[Topic: #{@message.topic.name}]", @message.topic )
+
+= render 'messages', :locals => { :message => @message }
