@@ -52,7 +52,7 @@ class Subscriber < ActiveRecord::Base
   end
   
   def encrypt_password(pass)
-    Digest::SHA1.hexdigest([pass, password_salt].join)
+    self.class.password_digest(pass, password_salt)
   end
   
   def saving_password?
@@ -61,6 +61,20 @@ class Subscriber < ActiveRecord::Base
   
   def generate_public_key
     self.public_key = Digest::SHA1.hexdigest([Time.now, rand].join)
+  end
+  
+  class << self
+    def secure_digest(*args)
+      Digest::SHA1.hexdigest(args.flatten.join('--'))
+    end
+
+    def password_digest(password, salt)
+      digest = ENV['SECRET_TOKEN']
+      15.times do
+        digest = secure_digest(digest, salt, password, ENV['SECRET_TOKEN'])
+      end
+      digest
+    end
   end
   
 end
