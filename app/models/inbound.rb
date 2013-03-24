@@ -48,13 +48,13 @@ module Inbound
       # Deliver to subscribers
       list.subscribers.each do |subscriber|
         begin
-          unless subscriber == message.author
+          #unless subscriber == message.author
             if self.html_body.present?
               Mailman.to_mailing_list(topic, self, subscriber, message).deliver
             else
               Mailman.to_mailing_list_as_plaintext(topic, self, subscriber, message).deliver
             end
-          end # unless
+          #end
         rescue => e
           Rails.logger.warn "SEND ERROR: #{e}"
         end
