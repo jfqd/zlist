@@ -31,7 +31,7 @@ class List < ActiveRecord::Base
   private
 
   def set_defaults
-    self.subject_prefix ||= '[' + name + ']'
+    self.subject_prefix ||= name
     self.send_replies_to ||= "Subscribers"
     self.message_footer ||= "None"
     self.permitted_to_post ||= "Subscribers"

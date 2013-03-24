@@ -17,6 +17,8 @@ class MailHandler < ActionMailer::Base
   
   private
   
+  TOPIC_RE = %r{\[[^\]]*#(\d+)\]}
+  
   def from
     @from ||= @email.from.to_a.first.to_s.strip
   end
@@ -86,7 +88,8 @@ class MailHandler < ActionMailer::Base
   end
   
   def mailbox_hash
-    Hash[*header.map {|i| i.split(":")}.flatten].fetch("X-Topic").strip
+    m = subject.match(TOPIC_RE)
+    m[1] || ''
   rescue
     ''
   end
