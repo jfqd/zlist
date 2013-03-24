@@ -27,7 +27,7 @@ module Inbound
       # Make sure the sender is in the list (allowed to post)
       author = list.subscribers.find_by_email(from)
       if author.nil?
-        unless @subject.downcase == "subscribe"
+        unless subscribe_request?
           Mailman.cannot_post(list, self).deliver && return
         end
         # Subscribe request
@@ -36,7 +36,7 @@ module Inbound
           Mailman.to_list_admin(list, admin, self).deliver
         end
         return
-      elsif @subject.downcase == "unsubscribe"
+      elsif unsubscribe_request?
         # Unsubscribe request
         admins = list.try(:subscribers).try(:admin)
         admins.each do |admin|
@@ -80,6 +80,14 @@ module Inbound
     end
     
     private
+    
+    def subscribe_request?
+      @subject.downcase == "subscribe"
+    end
+    
+    def unsubscribe_request?
+      @subject.downcase == "unsubscribe"
+    end
     
     def smtp?
       Server.smtp?

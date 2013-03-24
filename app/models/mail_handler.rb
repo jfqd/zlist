@@ -10,7 +10,7 @@ class MailHandler < ActionMailer::Base
   # Returns true or false
   def receive(email)
     @email = email
-    return false unless subscriber?
+    return false if not subscriber? && not subscribe_request?
     Inbound::Email.new(hash).process
     return true
   end
@@ -62,11 +62,15 @@ class MailHandler < ActionMailer::Base
       end
       break if _subscriber
     end
-    if _subscriber == false && subject.downcase != "subscribe"
+    if _subscriber == false
       log "MailHandler: ignoring email from unsubscribed user [#{from}]"
       return false
     end
     return true
+  end
+  
+  def subscribe_request?
+    subject.downcase == "subscribe"
   end
   
   def text_part
