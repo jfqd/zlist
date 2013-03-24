@@ -65,7 +65,8 @@ module Zlist
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :email, :name, :admin]
+    config.filter_parameters += [:password, :email, :name, :admin, :description,
+                                 :private, :subject_prefix, :send_replies_to]
 
     # Enable the asset pipeline
     config.assets.enabled = true
