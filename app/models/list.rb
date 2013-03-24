@@ -21,7 +21,11 @@ class List < ActiveRecord::Base
   end
 
   def domain
-    ENV['EMAIL_DOMAIN']
+    if ENV['SUBDOMAIN'].present?
+      ENV['SUBDOMAIN'] + "." + ENV['EMAIL_DOMAIN']
+    else
+      ENV['EMAIL_DOMAIN']
+    end
   end
 
   private

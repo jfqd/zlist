@@ -30,7 +30,7 @@ module Inbound
 
       # Check if this is a response to an existing topic or a new message
       if mailbox_hash.present?
-        topic = Topic.find_by_key(mailbox_hash)
+        topic = (smtp? ? Topic.find_by_id(mailbox_hash.to_i) : Topic.find_by_key(mailbox_hash))
 
         # Notify the sender that the topic does not exist even though they provided a topic hash
         Mailman.no_such_topic(list, self).deliver && return unless topic
@@ -46,13 +46,20 @@ module Inbound
       message = topic.messages.create(:subject => subject, :body => text_body, :author => author)
 
       # Deliver to subscribers
-      begin
-        list.subscribers.each do |subscriber|
-          Mailman.to_mailing_list(topic, self, subscriber, message).deliver unless subscriber == message.author
+      list.subscribers.each do |subscriber|
+        begin
+          unless subscriber == message.author
+            if self.html_body.present?
+              Mailman.to_mailing_list(topic, self, subscriber, message).deliver
+            else
+              Mailman.to_mailing_list_as_plaintext(topic, self, subscriber, message).deliver
+            end
+          end # unless
+        rescue => e
+          Rails.logger.warn "SEND ERROR: #{e}"
         end
-      rescue => e
-        Rails.logger.warn "SEND ERROR: #{e}"
-      end
+      end # list.subscribers.each
+
     end
     
     private

@@ -51,9 +51,43 @@ class Mailman < ActionMailer::Base
   # Send an e-mail out to a list
   def to_mailing_list(topic, email, subscriber, message)
     @email = email
+    
+    # Set additional headers
+    headers['List-ID']          = topic.list.email
+    headers['List-Post']        = topic.list.email
+    headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
+    headers['Reply-To']         = reply_to_address(topic, message)
+    headers['X-Topic']          = topic.id.to_s
 
-    # Determine the reply-to address
-    reply_to_address = case topic.list.send_replies_to
+    mail(
+      :to       => "#{subscriber.name} <#{subscriber.email}>",
+      :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
+      :subject  => subject(topic)
+    )
+  end
+
+  def to_mailing_list_as_plaintext(topic, email, subscriber, message)
+    @email = email
+    
+    # Set additional headers
+    headers['List-ID']          = topic.list.email
+    headers['List-Post']        = topic.list.email
+    headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
+    headers['Reply-To']         = reply_to_address(topic, message)
+    headers['X-Topic']          = topic.id.to_s
+    
+    mail(
+      :to       => "#{subscriber.name} <#{subscriber.email}>",
+      :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
+      :subject  => subject(topic),
+      :body     => @email.text_body
+    )
+  end
+  
+  private
+  
+  def reply_to_address(topic, message)
+    case topic.list.send_replies_to
     when "Subscribers"
       if Server.smtp?
         "#{topic.list.short_name}@#{ENV['EMAIL_DOMAIN']}"
@@ -65,27 +99,14 @@ class Mailman < ActionMailer::Base
     else
       "#{message.author.name} <#{message.author.email}>"
     end
-
-    # Determine the subject
-    if topic.list.subject_prefix.present?
-      subject = [topic.list.subject_prefix, email.subject].join(" ")
-    else
-      subject = email.subject
-    end
-
-    # Set additional headers
-    headers['List-ID']          = topic.list.email
-    headers['List-Post']        = topic.list.email
-    headers['List-Unsubscribe'] = "http://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
-    headers['Reply-To']         = reply_to_address
-    
-    headers['X-topic'] = topic.id.to_s if Server.smtp?
-
-    mail(
-      :to       => "#{subscriber.name} <#{subscriber.email}>",
-      :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
-      :subject  => subject
-    )
   end
-
+  
+  def subject(topic)
+    if topic.list.subject_prefix.present?
+      [topic.list.subject_prefix, @email.subject].join(" ")
+    else
+      @email.subject
+    end
+  end
+  
 end
