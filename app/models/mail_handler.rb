@@ -10,7 +10,7 @@ class MailHandler < ActionMailer::Base
   # Returns true or false
   def receive(email)
     @email = email
-    return false if not subscriber? && not subscribe_request?
+    return false if !subscriber? && !subscribe_request?
     Inbound::Email.new(hash).process
     return true
   end
