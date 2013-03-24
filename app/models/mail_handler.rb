@@ -62,7 +62,7 @@ class MailHandler < ActionMailer::Base
       end
       break if _subscriber
     end
-    if _subscriber == false
+    if _subscriber == false && subject.downcase != "subscribe"
       log "MailHandler: ignoring email from unsubscribed user [#{from}]"
       return false
     end

@@ -47,6 +47,14 @@ class Mailman < ActionMailer::Base
       :subject => "[#{list.name}] You're not allowed to post to this list"
     )
   end
+  
+  def to_list_admin(list, admin, email, reason="Subscribe")
+    mail(
+      :to      => admin.email,
+      :subject => "[#{list.name}] #{reason} request from #{email.from}",
+      :body    => "#{reason} request from #{email.from} to the list #{list.name} %>"
+    )
+  end
 
   # Send an e-mail out to a list
   def to_mailing_list(topic, email, subscriber, message)

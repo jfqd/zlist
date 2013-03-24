@@ -26,8 +26,25 @@ module Inbound
 
       # Make sure the sender is in the list (allowed to post)
       author = list.subscribers.find_by_email(from)
-      Mailman.cannot_post(list, self).deliver && return unless author
-
+      if author.nil?
+        unless @subject.downcase == "subscribe"
+          Mailman.cannot_post(list, self).deliver && return
+        end
+        # Subscribe request
+        admins = list.try(:subscribers).try(:admin)
+        admins.each do |admin|
+          Mailman.to_list_admin(list, admin, self).deliver
+        end
+        return
+      elsif @subject.downcase == "unsubscribe"
+        # Unsubscribe request
+        admins = list.try(:subscribers).try(:admin)
+        admins.each do |admin|
+          Mailman.to_list_admin(list, admin, self, "Unsubscribe").deliver
+        end
+        return
+      end
+      
       # Check if this is a response to an existing topic or a new message
       if mailbox_hash.present?
         topic = (smtp? ? Topic.find_by_id(mailbox_hash.to_i) : Topic.find_by_key(mailbox_hash))

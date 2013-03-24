@@ -19,8 +19,9 @@ class Subscriber < ActiveRecord::Base
   
   default_scope :order => :name
   
-  scope :active, :conditions => { :disabled => false }, :order => :name
+  scope :active,   :conditions => { :disabled => false }, :order => :name
   scope :disabled, :conditions => { :disabled => true }, :order => :name
+  scope :admin,    :conditions => { :admin => true }, :order => :name
   
   # Search based on 'term' parameter
   scope :search, lambda { |term| { :conditions => ["subscribers.name LIKE ? OR subscribers.email LIKE ?", "%" + term + "%", "%" + term + "%"], :order => :name }}
