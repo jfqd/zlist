@@ -68,10 +68,11 @@ module Inbound
       message = topic.messages.create(:subject => subject, :body => text_body, :author => author)
 
       # Deliver to subscribers
+      Rails.logger.warn "Sending out emails for list '#{list.name}' with subject '#{self.subject}'."
       list.subscribers.each do |subscriber|
         begin
           #unless subscriber == message.author
-            if self.html_body.present?
+            if self.html_body.present? && !subscriber.plain_text?
               Mailman.to_mailing_list(topic, self, subscriber, message).deliver
             else
               Mailman.to_mailing_list_as_plaintext(topic, self, subscriber, message).deliver
