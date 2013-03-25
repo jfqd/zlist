@@ -26,8 +26,8 @@ module Inbound
 
       # Make sure the sender is in the list (allowed to post)
       author = list.subscribers.find_by_email(from)
-      if author.nil?
-        unless subscribe_request?
+      if author.nil? || author.disabled?
+        if !subscribe_request? || author.disabled?
           Mailman.cannot_post(list, self).deliver
           return
         end
@@ -71,13 +71,13 @@ module Inbound
       Rails.logger.warn "Sending out emails for list '#{list.name}' with subject '#{self.subject}'."
       list.subscribers.each do |subscriber|
         begin
-          #unless subscriber == message.author
+          unless subscriber.disabled?
             if self.html_body.present? && !subscriber.plain_text?
               Mailman.to_mailing_list(topic, self, subscriber, message).deliver
             else
               Mailman.to_mailing_list_as_plaintext(topic, self, subscriber, message).deliver
             end
-          #end
+          end
         rescue => e
           Rails.logger.warn "SEND ERROR: #{e}"
         end
