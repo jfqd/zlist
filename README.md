@@ -16,7 +16,8 @@ As a feature the application accepts emails HTTP POSTed to a particular URL. Pos
 You can get the latest by downloading the master branch from GitHub, or you can grab the
 most recent tagged version on the downloads page at http://github.com/bensie/zlist/downloads
 
-Configure the application by creating your app_config.yml and database.yml files. Then run:
+Configure the application by creating your app_config.yml, email.yml and database.yml files.
+Then run:
 
 ### Regular Mailserver
 
@@ -57,7 +58,7 @@ Setup a cron entry.
 
 ## Prerequisites
 
-ZList currently runs on Rails 3.2.x and requires Ruby 1.9.x
+ZList currently runs on Rails 3.2.13 and requires Ruby >= 1.9.3
 
 ## Contributors
 
