@@ -1,5 +1,7 @@
 %tr{ :class => cycle('odd', 'even') }
   %td.topic-row
+    = topic.id
+  %td.topic-row
     = link_to h(topic.name), list_topic_path(@list, topic)
   %td.topic-row
     = time_ago_in_words(topic.messages.last.created_at)
