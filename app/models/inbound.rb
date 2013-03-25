@@ -28,17 +28,19 @@ module Inbound
       author = list.subscribers.find_by_email(from)
       if author.nil?
         unless subscribe_request?
-          Mailman.cannot_post(list, self).deliver && return
+          Mailman.cannot_post(list, self).deliver
+          return
         end
         # Subscribe request
         admins = list.subscribers.admin rescue []
         admins.each do |admin|
-          Mailman.to_list_admin(list, admin, self).deliver
+          Mailman.to_list_admin(list, admin, self, "Subscribe").deliver
         end
         return
       elsif subscribe_request?
         # Author has already subscribed to this list
-        Mailman.author_is_subscriber(list, self).deliver && return
+        Mailman.author_is_subscriber(list, self).deliver
+        return
       elsif unsubscribe_request?
         # Unsubscribe request
         admins = list.subscribers.admin rescue []

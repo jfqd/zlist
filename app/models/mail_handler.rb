@@ -10,7 +10,7 @@ class MailHandler < ActionMailer::Base
   # Returns true or false on any errors
   def receive(email)
     @email = email
-    return false if not subscriber? and not subscribe_request?
+    return false if !subscriber? && !subscribe_request?
     Inbound::Email.new(hash).process
     return true
   end
@@ -53,10 +53,10 @@ class MailHandler < ActionMailer::Base
   # the requested mailinglist
   def subscriber?
     if subscriber.nil?
-      log "MailHandler: ignoring email from unknown user [#{from}]"
+      log "MailHandler: ignoring email from unknown user [#{from}]" unless subscribe_request?
       return false
     elsif subscriber.disabled?
-      log "MailHandler: ignoring email from disabled user [#{from}]"
+      log "MailHandler: ignoring email from disabled user [#{from}]" unless subscribe_request?
       return false
     end
     _subscriber = false
@@ -73,7 +73,7 @@ class MailHandler < ActionMailer::Base
       break if _subscriber
     end
     if _subscriber == false
-      log "MailHandler: ignoring email from unsubscribed user [#{from}]"
+      log "MailHandler: ignoring email from unsubscribed user [#{from}]" unless subscribe_request?
       return false
     end
     return true
