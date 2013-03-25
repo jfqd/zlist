@@ -52,7 +52,14 @@ class Mailman < ActionMailer::Base
     mail(
       :to      => admin.email,
       :subject => "[#{list.name}] #{reason} request from #{email.from}",
-      :body    => "#{reason} request from #{email.from} to the list #{list.name} %>"
+      :body    => "#{reason} request from #{email.from} to the list #{list.name}"
+    )
+  end
+
+  def author_is_subscriber(list, admin, email, reason="Subscribe")
+    mail(
+      :to      => email.from,
+      :subject => "[#{list.name}] You are already a subscriber of this list"
     )
   end
 

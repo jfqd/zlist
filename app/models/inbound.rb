@@ -31,14 +31,17 @@ module Inbound
           Mailman.cannot_post(list, self).deliver && return
         end
         # Subscribe request
-        admins = list.try(:subscribers).try(:admin)
+        admins = list.subscribers.admin rescue []
         admins.each do |admin|
           Mailman.to_list_admin(list, admin, self).deliver
         end
         return
+      elsif subscribe_request?
+        # Author has already subscribed to this list
+        Mailman.author_is_subscriber(list, self).deliver && return
       elsif unsubscribe_request?
         # Unsubscribe request
-        admins = list.try(:subscribers).try(:admin)
+        admins = list.subscribers.admin rescue []
         admins.each do |admin|
           Mailman.to_list_admin(list, admin, self, "Unsubscribe").deliver
         end
