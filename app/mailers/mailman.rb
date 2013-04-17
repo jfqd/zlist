@@ -6,7 +6,8 @@ class Mailman < ActionMailer::Base
     list.subscribers.each do |subscriber|
       mail(
         :to      =>  "#{subscriber.name} <#{subscriber.email}>",
-        :subject => "[#{list.short_name}] Test Mailing"
+        :subject => "[#{list.short_name}] Test Mailing",
+        :date     => Time.zone.now
       )
     end
   end
@@ -16,7 +17,8 @@ class Mailman < ActionMailer::Base
     @address = email.to
     mail(
       :to      =>  email.from,
-      :subject =>  "Mailinglist '#{@address}' does not exist"
+      :subject =>  "Mailinglist '#{@address}' does not exist",
+      :date    => Time.zone.now
     )
   end
 
@@ -25,7 +27,8 @@ class Mailman < ActionMailer::Base
     @list = list.name
     mail(
       :to      => email.from,
-      :subject => "[#{list.name}] Topic no longer exists: #{email.subject}"
+      :subject => "[#{list.name}] Topic no longer exists: #{email.subject}",
+      :date     => Time.zone.now
     )
   end
 
@@ -35,7 +38,8 @@ class Mailman < ActionMailer::Base
       :to      => email.from,
       :subject => "Replies to this address are not monitored.",
       :body    => "We're sorry, but the mailer@#{ ENV['EMAIL_DOMAIN'] } address
-                   is not monitored for replies. Your message has been discarded."
+                   is not monitored for replies. Your message has been discarded.",
+      :date    => Time.zone.now
     )
   end
 
@@ -44,7 +48,8 @@ class Mailman < ActionMailer::Base
     @list = list.name
     mail(
       :to      => email.from,
-      :subject => "[#{list.name}] You're not allowed to post to this list"
+      :subject => "[#{list.name}] You're not allowed to post to this list",
+      :date    => Time.zone.now
     )
   end
   
@@ -52,14 +57,16 @@ class Mailman < ActionMailer::Base
     mail(
       :to      => admin.email,
       :subject => "[#{list.name}] #{reason} request from #{email.from}",
-      :body    => "#{reason} request from #{email.from} to the list '#{list.name}'"
+      :body    => "#{reason} request from #{email.from} to the list '#{list.name}'",
+      :date    => Time.zone.now
     )
   end
 
   def author_is_subscriber(list, email)
     mail(
       :to      => email.from,
-      :subject => "[#{list.name}] You are already a subscriber of this list"
+      :subject => "[#{list.name}] You are already a subscriber of this list",
+      :date    => Time.zone.now
     )
   end
 
@@ -76,7 +83,8 @@ class Mailman < ActionMailer::Base
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
       :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
-      :subject  => subject(topic)
+      :subject  => subject(topic),
+      :date     => Time.zone.now
     )
   end
 
@@ -93,7 +101,8 @@ class Mailman < ActionMailer::Base
       :to       => "#{subscriber.name} <#{subscriber.email}>",
       :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
       :subject  => subject(topic),
-      :body     => @email.text_body
+      :body     => @email.text_body,
+      :date     => Time.zone.now
     )
   end
   
