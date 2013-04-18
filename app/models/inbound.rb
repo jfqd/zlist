@@ -27,14 +27,15 @@ module Inbound
       # Make sure the sender is in the list (allowed to post)
       author = list.subscribers.find_by_email(from)
       if author.nil? || author.disabled?
-        if !subscribe_request? || author.disabled?
+        if subscribe_request?
+          # Subscribe request
+          admins = list.subscribers.admin rescue []
+          admins.each do |admin|
+            Mailman.to_list_admin(list, admin, self, "Subscribe").deliver
+          end
+        else
+          # Not a valid mailinglist member
           Mailman.cannot_post(list, self).deliver
-          return
-        end
-        # Subscribe request
-        admins = list.subscribers.admin rescue []
-        admins.each do |admin|
-          Mailman.to_list_admin(list, admin, self, "Subscribe").deliver
         end
         return
       elsif subscribe_request?
