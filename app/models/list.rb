@@ -17,7 +17,11 @@ class List < ActiveRecord::Base
                   :send_replies_to, :message_footer, :permitted_to_post, :archive_disabled, :disabled
 
   def email
-    short_name + "@" + ENV['EMAIL_DOMAIN']
+    if short_name.include?('@')
+      short_name
+    else
+      short_name + "@" + ENV['EMAIL_DOMAIN']
+    end
   end
 
   def domain

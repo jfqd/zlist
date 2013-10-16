@@ -56,6 +56,8 @@ class Subscriber < ActiveRecord::Base
     self.class.password_digest(pass, password_salt)
   end
   
+  # saving_password is set inside of the
+  # SubscribersController#create request
   def saving_password?
     saving_password
   end

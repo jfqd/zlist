@@ -36,9 +36,9 @@ class Mailman < ActionMailer::Base
   def no_reply_address(email)
     mail(
       :to      => email.from,
-      :subject => "Replies to this address are not monitored.",
-      :body    => "We're sorry, but the mailer@#{ ENV['EMAIL_DOMAIN'] } address
-                   is not monitored for replies. Your message has been discarded.",
+      :subject => "Replies to this email-address are not monitored.",
+      :body    => "We're sorry, but this email-address is not monitored
+                   for replies. Your message has been discarded.",
       :date    => Time.zone.now
     )
   end
@@ -77,12 +77,12 @@ class Mailman < ActionMailer::Base
     # Set additional headers
     headers['List-ID']          = topic.list.email
     headers['List-Post']        = topic.list.email
-    headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
+    # headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
     headers['Reply-To']         = reply_to_address(topic, message)
 
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
-      :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
+      :from     => "#{message.author.name} <#{message.author.email}>",
       :subject  => subject(topic),
       :date     => Time.zone.now
     )
@@ -99,7 +99,7 @@ class Mailman < ActionMailer::Base
     
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
-      :from     => "#{message.author.name} <mailer@#{ENV['EMAIL_DOMAIN']}>",
+      :from     => "#{message.author.name} <#{message.author.email}>",
       :subject  => subject(topic),
       :body     => @email.text_body,
       :date     => Time.zone.now
@@ -112,7 +112,7 @@ class Mailman < ActionMailer::Base
     case topic.list.send_replies_to
     when "Subscribers"
       if Server.smtp?
-        "#{topic.list.short_name}@#{ENV['EMAIL_DOMAIN']}"
+        topic.list.email
       else
         "#{topic.list.short_name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"
       end
