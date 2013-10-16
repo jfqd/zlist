@@ -63,6 +63,9 @@ module Zlist
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
+    
+    # Set external and internal encoding to utf-8
+    # Encoding.default_external = Encoding.default_internal = Encoding::UTF_8
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :email, :name, :admin, :description,
