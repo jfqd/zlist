@@ -7,9 +7,8 @@
 - if admin?
   %p Optionally, give the subscriber a password so they can login to the system.
 
-= bs_password_field(f, :password, "Password")
-= bs_password_field(f, :password_confirmation, "Confirm Password")
+  = bs_password_field(f, :password, "Password")
+  = bs_password_field(f, :password_confirmation, "Confirm Password")
 
-- if admin?
   = bs_check_box_block do
     = bs_check_box(f, :admin, "Make this subscriber an administrator")
