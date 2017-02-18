@@ -3,8 +3,7 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 3.2.17"
-gem "mysql2"
-gem "activerecord-mysql2-adapter"
+gem "mysql2", "~> 0.3.21"
 
 group :assets do
   gem "sass-rails"
