@@ -59,20 +59,20 @@ class MailHandler < ActionMailer::Base
       log "MailHandler: ignoring email from disabled user [#{from}]" unless subscribe_request?
       return false
     end
-    _subscriber = false
+    subscriber_valid = false
     addresses = [@email.to, @email.cc].flatten.compact
     addresses.each do |a|
       subscriber.subscriptions.each do |s|
         @to = a
         @mailbox = a.split('@')[0]
         if s.try(:list).try(:name) == @mailbox
-          _subscriber = true
+          subscriber_valid = true
           break
         end
       end
-      break if _subscriber
+      break if subscriber_valid
     end
-    if _subscriber == false
+    unless subscriber_valid
       log "MailHandler: ignoring email from unsubscribed user [#{from}]" unless subscribe_request?
       return false
     end
