@@ -9,18 +9,18 @@ class List < ActiveRecord::Base
   scope :public, :conditions => { :private => false }
   scope :private, :conditions => { :private => true }
 
-  validates_presence_of :name, :short_name
+  validates_presence_of :name, :mailbox
 
   before_validation :set_defaults, on: :create
 
-  attr_accessible :name, :description, :short_name, :subscriber_ids, :private, :subject_prefix,
+  attr_accessible :name, :description, :mailbox, :subscriber_ids, :private, :subject_prefix,
                   :send_replies_to, :message_footer, :permitted_to_post, :archive_disabled, :disabled
 
   def email
-    if short_name.include?('@')
-      short_name
+    if mailbox.include?('@')
+      mailbox
     else
-      short_name + "@" + ENV['EMAIL_DOMAIN']
+      mailbox + "@" + ENV['EMAIL_DOMAIN']
     end
   end
 

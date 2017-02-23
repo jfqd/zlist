@@ -6,7 +6,7 @@ class Mailman < ActionMailer::Base
     list.subscribers.each do |subscriber|
       mail(
         :to      =>  "#{subscriber.name} <#{subscriber.email}>",
-        :subject => "[#{list.short_name}] Test Mailing",
+        :subject => "[#{list.name}] Test Mailing",
         :date     => Time.zone.now
       )
     end
@@ -94,7 +94,7 @@ class Mailman < ActionMailer::Base
     # Set additional headers
     headers['List-ID']          = topic.list.email
     headers['List-Post']        = topic.list.email
-    headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
+    # headers['List-Unsubscribe'] = "#{ENV['PROTOCOL'] || "http"}://#{topic.list.domain}/lists/#{ topic.list.id }/unsubscribe"
     headers['Reply-To']         = reply_to_address(topic, message)
     
     mail(
@@ -114,7 +114,7 @@ class Mailman < ActionMailer::Base
       if Server.smtp?
         topic.list.email
       else
-        "#{topic.list.short_name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"
+        "#{topic.list.name}+#{topic.key}@#{ENV['EMAIL_DOMAIN']}"
       end
     when "Author"
       "#{message.author.name} <#{message.author.email}>"
