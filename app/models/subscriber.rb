@@ -1,27 +1,24 @@
 require 'digest/sha1'
 class Subscriber < ActiveRecord::Base
-  has_many :subscriptions, :dependent => :destroy
-  has_many :lists, :through => :subscriptions, :uniq => true
+  has_many :subscriptions, dependent: :destroy
+  has_many :lists, through: :subscriptions #, uniq: true
 
   has_many :writings, :class_name => 'Message', :foreign_key => 'subscriber_id', :dependent => :destroy
   
   validates_uniqueness_of :email
-  validates_format_of :email, :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
+  validates_format_of :email, :with => /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}\z/i
   validates_presence_of :password, :if => :saving_password?
   validates_presence_of :name
   validates_confirmation_of :password
   
-  attr_accessible :name, :email, :password, :password_confirmation
-  
-  attr_accessor :password, :saving_password
-  before_save :prepare_password, :if => :saving_password?
+  before_save   :prepare_password, :if => :saving_password?
   before_create :generate_public_key
   
-  default_scope :order => :name
+  default_scope ->{ order(:name) }
   
-  scope :active,   :conditions => { :disabled => false }, :order => :name
-  scope :disabled, :conditions => { :disabled => true }, :order => :name
-  scope :admin,    :conditions => { :admin => true }, :order => :name
+  scope :active,   ->{ where(disabled: false).order(:name) }
+  scope :disabled, ->{ where(disabled: true).order(:name) }
+  scope :admin,    ->{ where(admin true).order(:name) }
   
   # Search based on 'term' parameter
   scope :search, lambda { |term| { :conditions => ["subscribers.name LIKE ? OR subscribers.email LIKE ?", "%" + term + "%", "%" + term + "%"], :order => :name }}
@@ -33,7 +30,7 @@ class Subscriber < ActiveRecord::Base
   
   # Login with email address
   def self.authenticate(login, pass)
-    user = find_by_email(login)
+    user = Subscriber.find_by(email: login)
     return user if user && user.matching_password?(pass)
   end
   

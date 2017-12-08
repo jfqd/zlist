@@ -28,12 +28,12 @@ class ListsController < ApplicationController
   end
 
   def create
-    @list = List.create(params[:list])
+    @list = List.create(list_params)
     respond_with @list
   end
 
   def update
-    @list.update_attributes(params[:list])
+    @list.update_attributes(list_params)
     respond_with @list
   end
 
@@ -63,5 +63,13 @@ class ListsController < ApplicationController
 
   def find_list
     @list = List.find(params[:id])
+  end
+  
+  def list_params
+    params.require(:list).permit(
+      :name, :description, :mailbox, :subscriber_ids, :private,
+      :subject_prefix, :send_replies_to, :message_footer,
+      :permitted_to_post, :archive_disabled, :disabled
+    )
   end
 end

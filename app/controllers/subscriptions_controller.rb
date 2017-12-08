@@ -18,13 +18,13 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    @subscription = Subscription.create(params[:subscription])
+    @subscription = Subscription.create(subscription_params)
     @list = @subscription.list
     redirect_to :back
   end
 
   def update
-    if @subscription.update_attributes(params[:subscription])
+    if @subscription.update_attributes(subscription_params)
       flash[:notice] = 'Subscription was successfully updated.'
       redirect_to @subscription
     else
@@ -42,5 +42,9 @@ class SubscriptionsController < ApplicationController
   
   def find_subscription
     @subscription = Subscription.find(params[:id])
+  end
+  
+  def subscription_params
+    params.require(:subscription).permit(:list_id, :subscriber_id)
   end
 end

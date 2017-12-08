@@ -21,11 +21,11 @@ module Inbound
 
     def process
       # Make sure the list exists
-      list = List.find_by_name(mailbox)
+      list = List.find_by(name: mailbox)
       Mailman.no_such_list(self).deliver && return unless list
 
       # Make sure the sender is in the list (allowed to post)
-      author = list.subscribers.find_by_email(from)
+      author = list.subscribers.find_by(email: from)
       if author.nil? || author.disabled?
         if subscribe_request?
           # Subscribe request
@@ -53,7 +53,7 @@ module Inbound
       
       # Check if this is a response to an existing topic or a new message
       if mailbox_hash.present?
-        topic = (smtp? ? Topic.find_by_id(mailbox_hash.to_i) : Topic.find_by_key(mailbox_hash))
+        topic = (smtp? ? Topic.find_by(id:mailbox_hash.to_i) : Topic.find_by(key: mailbox_hash))
 
         # Notify the sender that the topic does not exist even though they provided a topic hash
         Mailman.no_such_topic(list, self).deliver && return unless topic

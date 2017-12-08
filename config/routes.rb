@@ -32,6 +32,6 @@ Zlist::Application.routes.draw do
   end
   resources :subscriptions
 
-  root :to => 'lists#index'
+  root 'lists#index'
 
 end

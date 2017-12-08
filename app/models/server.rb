@@ -5,7 +5,7 @@ class Server < ActiveRecord::Base
 
   validates_presence_of :name
 
-  default_scope :order => :name
+  default_scope ->{ order(:name) }
 
   private
 

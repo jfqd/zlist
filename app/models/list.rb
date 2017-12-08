@@ -1,20 +1,17 @@
 class List < ActiveRecord::Base
 
-  has_many :subscriptions, :dependent => :destroy
-  has_many :subscribers, :order => :name, :through => :subscriptions, :uniq => true
-  has_many :topics, :dependent => :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, -> { order(:name) }, through: :subscriptions #  uniq: true, 
+  has_many :topics, dependent: :destroy
 
-  default_scope :order => :name
+  default_scope { order(:name) }
 
-  scope :public, :conditions => { :private => false }
-  scope :private, :conditions => { :private => true }
+  # scope :public,  ->{ where(private: false) }
+  # scope :private, ->{ where(private: true) }
 
   validates_presence_of :name, :mailbox
 
   before_validation :set_defaults, on: :create
-
-  attr_accessible :name, :description, :mailbox, :subscriber_ids, :private, :subject_prefix,
-                  :send_replies_to, :message_footer, :permitted_to_post, :archive_disabled, :disabled
 
   def email
     if mailbox.include?('@')

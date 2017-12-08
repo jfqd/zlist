@@ -30,3 +30,23 @@ body {
 #main {
   margin-top: 40px;
 }
+
+.navbar .nav {
+  padding-top: 10px;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+  color: white;
+}
+
+.navbar-inverse .brand {
+  font-weight: bold;
+}
+
+div.navbar-form.pull-right {
+  padding-top: 20px;
+}
+
+div.navbar-form.pull-right a {
+  color: white;
+}

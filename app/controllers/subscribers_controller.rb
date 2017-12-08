@@ -27,7 +27,7 @@ class SubscribersController < ApplicationController
   def create
     admin = (params[:subscriber][:admin] == '1')
     params[:subscriber].delete :admin
-    @subscriber = Subscriber.new(params[:subscriber])
+    @subscriber = Subscriber.new(subscriber_params)
     if params[:subscriber][:password].present? || params[:subscriber][:password_confirmation].present?
       @subscriber.saving_password = true
     end
@@ -51,7 +51,7 @@ class SubscribersController < ApplicationController
   end
 
   def update
-    @subscriber.assign_attributes(params[:subscriber], without_protection: admin?)
+    @subscriber.assign_attributes(subscriber_params, without_protection: admin?)
     if params[:subscriber][:password].present? || params[:subscriber][:password_confirmation].present?
       @subscriber.saving_password = true
     end
@@ -85,5 +85,9 @@ class SubscribersController < ApplicationController
     else
       @subscriber = current_user
     end
+  end
+  
+  def subscriber_params
+    params.require(:subscriber).permit(:name, :email, :password, :password_confirmation)
   end
 end

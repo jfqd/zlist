@@ -21,7 +21,7 @@ class EmailsController < ApplicationController
   private
 
   def verify_server_can_send_email
-    unless Server.find_by_key(params[:key])
+    unless Server.find_by(key: params[:key])
       render :text => "Your server did not provide a valid key to post messages.", :status => 403
     end
   end

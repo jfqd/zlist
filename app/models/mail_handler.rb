@@ -44,7 +44,7 @@ class MailHandler < ActionMailer::Base
   
   # Returns the subscribers of the requested mailinglist
   def subscriber
-    @subscriber ||= (from.present? ? Subscriber.find_by_email(from) : nil)
+    @subscriber ||= (from.present? ? Subscriber.find_by(email: from) : nil)
   rescue
     nil
   end
