@@ -1,6 +1,6 @@
 Zlist::Application.routes.draw do
 
-  mount Resque::Server.new, at: "/resque"
+  # mount Resque::Server.new, at: "/resque"
 
   get 'signup', :to => 'subscribers#new'
   get 'logout', :to => 'sessions#destroy'
