@@ -43,6 +43,12 @@ To start the application in development mode run:
 rails s
 ```
 
+Using the app in production assets precompile is needed:
+
+```
+RAILS_ENV=production rake assets:precompile
+```
+
 If you plan to use postmarkapp.com as a service a redis-server is required.
 
 For regular IMAP email fetching create a cron job as described below. If you plan to host
@@ -58,7 +64,7 @@ Setup a cron entry.
 
 ## Prerequisites
 
-ZList currently runs on Rails 3.2.13 and requires Ruby >= 1.9.3
+ZList currently runs on Rails 4.2.10 and requires Ruby >= 2.2.8
 
 ## Contributors
 
