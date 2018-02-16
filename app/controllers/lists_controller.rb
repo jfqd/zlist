@@ -10,7 +10,7 @@ class ListsController < ApplicationController
   end
 
   def available
-    @lists = List.public.order(:name)
+    @lists = List.is_public.order(:name)
   end
 
   def show

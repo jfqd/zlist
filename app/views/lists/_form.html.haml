@@ -8,8 +8,8 @@
 - if @list.persisted?
   = bs_text_field(f, :subject_prefix, "Subject prefix")
   = bs_check_box_block do
-    = bs_check_box(f, :archive_disabled, "Disable the ability to view the message archive", disabled: true)
-    = bs_check_box(f, :disabled, "Disable this list.  This will prevent any new topics from being created, all messages will bounce back to the sender.", disabled: true)
+    = bs_check_box(f, :archive_disabled, "Disable the ability to view the message archive")
+    = bs_check_box(f, :disabled, "Disable this list.  This will prevent any new topics from being created, all messages will bounce back to the sender.")
 
   %h4 Who receives replies to messages?
 
@@ -20,6 +20,6 @@
   %h4 Who is permitted to post new topics?
 
   = bs_radio_button_block do
-    = bs_radio_button(f, :permitted_to_post, "Only Managers", "Managers", disabled: true)
-    = bs_radio_button(f, :permitted_to_post, "All Subscribers", "Subscribers", disabled: true)
-    = bs_radio_button(f, :permitted_to_post, "Anyone", "Anyone", disabled: true)
+    = bs_radio_button(f, :permitted_to_post, "Only Managers", "Managers")
+    = bs_radio_button(f, :permitted_to_post, "All Subscribers", "Subscribers")
+    = bs_radio_button(f, :permitted_to_post, "Anyone", "Anyone")

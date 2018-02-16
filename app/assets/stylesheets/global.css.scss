@@ -50,3 +50,15 @@ div.navbar-form.pull-right {
 div.navbar-form.pull-right a {
   color: white;
 }
+
+[class*="span"] {
+  float: none;
+  display: inline-block;
+}
+.span2 {
+  width: auto;
+}
+
+div.footer {
+  padding-top: 20px;
+}

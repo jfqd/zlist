@@ -1,13 +1,13 @@
 class List < ActiveRecord::Base
 
   has_many :subscriptions, dependent: :destroy
-  has_many :subscribers, -> { order(:name) }, through: :subscriptions #  uniq: true, 
+  has_many :subscribers, -> { order(:name) }, through: :subscriptions, uniq: true
   has_many :topics, dependent: :destroy
 
   default_scope { order(:name) }
 
-  # scope :public,  ->{ where(private: false) }
-  # scope :private, ->{ where(private: true) }
+  scope :is_public,  ->{ where(private: false) }
+  scope :is_private, ->{ where(private: true) }
 
   validates_presence_of :name, :mailbox
 
@@ -32,9 +32,9 @@ class List < ActiveRecord::Base
   private
 
   def set_defaults
-    self.subject_prefix ||= name
-    self.send_replies_to ||= "Subscribers"
-    self.message_footer ||= "None"
+    self.subject_prefix    ||= name
+    self.send_replies_to   ||= "Subscribers"
+    self.message_footer    ||= "None"
     self.permitted_to_post ||= "Subscribers"
   end
 
