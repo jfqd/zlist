@@ -6,7 +6,8 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv::Railtie.load
+ENV["RAILS_ENV"] ||= ENV["RACK_ENV"] ||= "production"
+Dotenv.load ".env.#{ENV["RAILS_ENV"]}", '.env'
 
 module Zlist
   class Application < Rails::Application
@@ -25,12 +26,6 @@ module Zlist
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     
-    # Set application ENV variables from a YAML file
-    # In production (on Heroku), these should be set using built-in config vars
-    YAML.load(File.read("#{Rails.root}/config/app_config.yml"))[Rails.env].each do |k, v|
-      ENV[k] ||= v
-    end
-   
     # Select delivery method
     if File.exists?("#{Rails.root}/config/email.yml")
       # Load Mailserver settings

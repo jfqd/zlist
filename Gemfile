@@ -27,7 +27,7 @@ end
 
 # gem "redis"
 # gem "resque", require: "resque/server"
-gem "dotenv-rails", :require => "dotenv/rails-now"
+gem 'dotenv'
 
 gem "will_paginate"
 
