@@ -7,9 +7,6 @@
 db/*.sqlite3
 log/*.log
 tmp/
-config/database.yml
-config/app_config.yml
-config/email.yml
 Capfile
 config/deploy*
 doc/
