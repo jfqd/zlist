@@ -65,7 +65,7 @@ class MailHandler < ActionMailer::Base
       subscriber.subscriptions.each do |s|
         @to = a
         @mailbox = a.split('@')[0]
-        if s.try(:list).try(:name) == @mailbox
+        if s.try(:list).try(:mailbox) == a
           subscriber_valid = true
           break
         end
