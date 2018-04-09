@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    subscriber = Subscriber.authenticate(params[:sessions][:login], params[:sessions][:password])
+    subscriber = Subscriber.authenticate(subscriber_params[:login], subscriber_params[:password])
     if subscriber
       session[:subscriber_id] = subscriber.id
       redirect_to_target_or_default root_url
@@ -21,6 +21,10 @@ class SessionsController < ApplicationController
   def destroy
     session[:subscriber_id] = nil
     redirect_to root_url, :notice => "You have been logged out."
+  end
+  
+  def subscriber_params
+    params.require(:sessions).permit(:login, :password)
   end
 
 end

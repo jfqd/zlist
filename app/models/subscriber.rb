@@ -16,6 +16,8 @@ class Subscriber < ActiveRecord::Base
   
   default_scope ->{ order(:name) }
   
+  attr_accessor :password, :saving_password
+  
   scope :active,   ->{ where(disabled: false).order(:name) }
   scope :disabled, ->{ where(disabled: true).order(:name) }
   scope :admin,    ->{ where(admin true).order(:name) }
