@@ -127,7 +127,7 @@ class Mailman < ActionMailer::Base
     if topic.list.subject_prefix.present?
       if Server.smtp?
         s = "[#{topic.list.subject_prefix}##{topic.id}] #{@email.subject}"
-        s = "Re: #{s}" if topic.messages && topic.messages.size > 0
+        s = "Re: #{s}" if topic.messages && topic.messages.size > 1
         s
       else
         "[#{topic.list.subject_prefix}] #{@email.subject}"
