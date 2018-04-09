@@ -8,7 +8,7 @@ defaults: &defaults
     domain: <%= ENV['MAIL_DOMAIN'] %>
     authentication: :plain
     user_name: <%= ENV['MAIL_USER'] %>
-    user_name: <%= ENV['MAIL_PWD'] %>
+    password: <%= ENV['MAIL_PWD'] %>
 
 development:
   <<: *defaults

@@ -30,9 +30,18 @@ module Zlist
     if File.exists?("#{Rails.root}/config/email.yml")
       # Load Mailserver settings
       config.action_mailer.perform_deliveries = true
-      YAML.load(File.read("#{Rails.root}/config/email.yml"))[Rails.env].each do |k, v|
-        v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
-        ActionMailer::Base.send("#{k}=", v)
+      YAML.load(File.read("#{Rails.root}/config/email.yml"))[Rails.env].each do |key, value|
+        value = Hash.new.tap do |rendered_hash|
+          value.each { |k,v|
+            if v.is_a? String
+              renderer = ERB.new(v)
+              v = renderer.result()
+            end
+            rendered_hash[k] = v
+          }
+        end if value.is_a? Hash
+        value.symbolize_keys! if value.respond_to?(:symbolize_keys!)
+        ActionMailer::Base.send("#{key}=", value)
       end
     else
       # Send email using Postmark
