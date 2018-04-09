@@ -21,7 +21,7 @@ module Inbound
 
     def process
       # Make sure the list exists
-      list = List.find_by(name: mailbox)
+      list = List.find_by(mailbox: to)
       Mailman.no_such_list(self).deliver && return unless list
 
       # Make sure the sender is in the list (allowed to post)
