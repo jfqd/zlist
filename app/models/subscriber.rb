@@ -23,7 +23,7 @@ class Subscriber < ActiveRecord::Base
   scope :admin,    ->{ where(admin true).order(:name) }
   
   # Search based on 'term' parameter
-  scope :search, lambda { |term| { :conditions => ["subscribers.name LIKE ? OR subscribers.email LIKE ?", "%" + term + "%", "%" + term + "%"], :order => :name }}
+  scope :search, ->(term) { where("subscribers.name LIKE ? OR subscribers.email LIKE ?", "%" + term + "%", "%" + term + "%").order(:name) }
   
   def self.find_subscribers_not_in_list(list_id)
     find_by_sql ["SELECT * FROM subscribers WHERE id NOT IN 
