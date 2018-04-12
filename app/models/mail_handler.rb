@@ -11,6 +11,7 @@ class MailHandler < ActionMailer::Base
   def receive(email)
     @email = email
     return false if !subscriber? && !subscribe_request?
+    return false if autoreply?
     Inbound::Email.new(hash).process
     return true
   end
@@ -82,6 +83,28 @@ class MailHandler < ActionMailer::Base
   # Returns true if it is a subscribe request
   def subscribe_request?
     subject.downcase == "subscribe"
+  end
+  
+  # Returns true if email is an autoreply
+  def autoreply?
+    ignored_headers = {
+      'X-Auto-Response-Suppress' => 'oof',
+      'X-Auto-Response-Suppress' => 'all',
+      'X-Autoreply'              => /\A.{1,}\z/,
+      'X-Autorespose'            => /\A.{1,}\z/,
+      'X-Autorespond'            => /\A.{1,}\z/,
+      'Auto-Submitted'           => /\Aauto-/
+    }
+    ignored_headers.each do |key, ignored_value|
+      value = @email.header[key]
+      if value
+        value = value.to_s.downcase
+        if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
+          log "MailHandler: ignoring autoreply email with #{key}:#{value} header from user [#{from}]"
+          return true
+        end
+      end
+    end
   end
   
   # Returns the text-part of the email. Falling
