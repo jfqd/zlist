@@ -88,11 +88,11 @@ class MailHandler < ActionMailer::Base
   # Returns true if email is an autoreply
   def autoreply?
     ignored_headers = {
-      'X-Auto-Response-Suppress' => /(all|oof)/,
+      'X-Auto-Response-Suppress' => /(all|oof)/i,
       'X-Autoreply'              => /\A.{1,}\z/,
       'X-Autorespose'            => /\A.{1,}\z/,
       'X-Autorespond'            => /\A.{1,}\z/,
-      'Auto-Submitted'           => /\Aauto-/
+      'Auto-Submitted'           => /\Aauto-/i
     }
     ignored_headers.each do |key, ignored_value|
       value = @email.header[key]
