@@ -9,7 +9,7 @@ gem 'responders', '~> 2.0'
 gem "mysql2", "~> 0.4.10"
 
 group :assets do
-  gem "sass-rails"
+  gem "sass-rails", "~> 5.0.7"
   gem "coffee-rails"
   gem "uglifier"
 end
