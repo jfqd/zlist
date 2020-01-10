@@ -31,6 +31,8 @@ module Zlist
           end
         end
         imap.expunge
+        imap.logout
+        imap.disconnect
       end
       
       private
