@@ -82,7 +82,8 @@ class Mailman < ActionMailer::Base
 
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
-      :from     => "#{message.author.name} <#{message.author.email}>",
+      :from     => "#{message.author.name} via #{topic.list.name} <#{topic.list.email}>",
+      # :from     => "#{message.author.name} <#{message.author.email}>",
       :subject  => subject(topic),
       :date     => Time.zone.now
     )
@@ -99,7 +100,8 @@ class Mailman < ActionMailer::Base
     
     mail(
       :to       => "#{subscriber.name} <#{subscriber.email}>",
-      :from     => "#{message.author.name} <#{message.author.email}>",
+      :from     => "#{message.author.name} via #{topic.list.name} <#{topic.list.email}>",
+      # :from     => "#{message.author.name} <#{message.author.email}>",
       :subject  => subject(topic),
       :body     => @email.text_body,
       :date     => Time.zone.now
