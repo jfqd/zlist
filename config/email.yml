@@ -4,7 +4,7 @@ defaults: &defaults
   smtp_settings:
     enable_starttls_auto: true
     address: <%= ENV['MAIL_HOST'] %>
-    port: 25
+    port: 587
     domain: <%= ENV['MAIL_DOMAIN'] %>
     authentication: :plain
     user_name: <%= ENV['MAIL_USER'] %>
