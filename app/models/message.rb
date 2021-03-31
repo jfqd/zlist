@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
 
   belongs_to :topic
   belongs_to :author, :class_name => 'Subscriber', :foreign_key => 'subscriber_id'

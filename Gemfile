@@ -2,11 +2,11 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 4.2.0"
+gem "rails", "~> 5.0.7.2"
 gem 'responders', '~> 2.0'
 
 #gem 'activerecord-mysql2-adapter'
-gem "mysql2", "~> 0.4.10"
+gem "mysql2"
 
 group :assets do
   gem "sass-rails", "~> 5.0.7"
@@ -29,7 +29,3 @@ end
 gem 'dotenv'
 
 gem "will_paginate"
-
-group :development do
-  gem "quiet_assets"
-end

@@ -1,5 +1,5 @@
 require 'digest/sha1'
-class Subscriber < ActiveRecord::Base
+class Subscriber < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :lists, through: :subscriptions #, uniq: true
 

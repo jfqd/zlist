@@ -23,16 +23,16 @@ Then run:
 
 ```
 bundle install --without postmark
-rake db:create
-rake db:migrate
+rails db:create
+rails db:migrate
 ```
 
 ### Postmark
 
 ```
 bundle install
-rake db:create
-rake db:migrate
+rails db:create
+rails db:migrate
 ```
 
 ## Run the application
@@ -43,10 +43,16 @@ To start the application in development mode run:
 rails s
 ```
 
+To start the application in production mode run:
+
+```
+RAILS_SERVE_STATIC_FILES=true RAILS_ENV=production rails s
+```
+
 Using the app in production assets precompile is needed:
 
 ```
-RAILS_ENV=production rake assets:precompile
+RAILS_ENV=production rails assets:precompile
 ```
 
 If you plan to use postmarkapp.com as a service a redis-server is required.
@@ -64,7 +70,7 @@ Setup a cron entry.
 
 ## Prerequisites
 
-ZList currently runs on Rails 4.2.10 and requires Ruby >= 2.2.8
+ZList currently runs on Rails 5.0.7.2 and requires Ruby >= 2.2.8
 
 ## Contributors
 

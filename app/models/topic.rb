@@ -1,5 +1,5 @@
 require 'digest/sha1'
-class Topic < ActiveRecord::Base
+class Topic < ApplicationRecord
   belongs_to :list
   has_many :messages, :dependent => :destroy
   

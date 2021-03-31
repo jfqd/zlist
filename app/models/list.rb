@@ -1,4 +1,4 @@
-class List < ActiveRecord::Base
+class List < ApplicationRecord
 
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, -> { distinct.order(:name) }, through: :subscriptions

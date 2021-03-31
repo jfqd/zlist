@@ -1,5 +1,5 @@
 require 'digest/sha1'
-class Server < ActiveRecord::Base
+class Server < ApplicationRecord
 
   before_create :generate_public_key
 
