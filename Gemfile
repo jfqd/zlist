@@ -9,7 +9,8 @@ gem 'responders'
 gem "mysql2"
 
 group :assets do
-  gem "sass-rails", "~> 5.0.7"
+  # do not use sassc with illumos
+  gem "sass-rails", "~> 5.1.0"
   gem "coffee-rails"
   gem "uglifier"
 end
