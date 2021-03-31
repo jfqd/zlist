@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
   def create
     @subscription = Subscription.create(subscription_params)
     @list = @subscription.list
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   def update
@@ -35,7 +35,7 @@ class SubscriptionsController < ApplicationController
   def destroy
     @list = @subscription.list
     @subscription.destroy
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
   
   private
