@@ -2,8 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 5.2.5"
-gem 'responders', '~> 2.0'
+gem "rails", "~> 6.0.3.6"
+gem 'responders'
 
 #gem 'activerecord-mysql2-adapter'
 gem "mysql2"
@@ -29,3 +29,5 @@ end
 gem 'dotenv'
 
 gem "will_paginate"
+
+# gem 'listen'

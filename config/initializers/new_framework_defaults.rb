@@ -1,38 +1,45 @@
 # Be sure to restart your server when you modify this file.
 #
-# This file contains migration options to ease your Rails 5.2 upgrade.
+# This file contains migration options to ease your Rails 6.0 upgrade.
 #
 # Once upgraded flip defaults one by one to migrate to the new default.
 #
 # Read the Guide for Upgrading Ruby on Rails for more info on each option.
 
-# Make Active Record use stable #cache_key alongside new #cache_version method.
-# This is needed for recyclable cache keys.
-# Rails.application.config.active_record.cache_versioning = true
+# Don't force requests from old versions of IE to be UTF-8 encoded.
+# Rails.application.config.action_view.default_enforce_utf8 = false
 
-# Use AES-256-GCM authenticated encryption for encrypted cookies.
-# Also, embed cookie expiry in signed or encrypted cookies for increased security.
+# Embed purpose and expiry metadata inside signed and encrypted
+# cookies for increased security.
 #
 # This option is not backwards compatible with earlier Rails versions.
-# It's best enabled when your entire app is migrated and stable on 5.2.
+# It's best enabled when your entire app is migrated and stable on 6.0.
+# Rails.application.config.action_dispatch.use_cookies_with_metadata = true
+
+# Change the return value of `ActionDispatch::Response#content_type` to Content-Type header without modification.
+# Rails.application.config.action_dispatch.return_only_media_type_on_content_type = false
+
+# Return false instead of self when enqueuing is aborted from a callback.
+# Rails.application.config.active_job.return_false_on_aborted_enqueue = true
+
+# Send Active Storage analysis and purge jobs to dedicated queues.
+# Rails.application.config.active_storage.queues.analysis = :active_storage_analysis
+# Rails.application.config.active_storage.queues.purge    = :active_storage_purge
+
+# When assigning to a collection of attachments declared via `has_many_attached`, replace existing
+# attachments instead of appending. Use #attach to add new attachments without replacing existing ones.
+# Rails.application.config.active_storage.replace_on_assign_to_many = true
+
+# Use ActionMailer::MailDeliveryJob for sending parameterized and normal mail.
 #
-# Existing cookies will be converted on read then written with the new scheme.
-# Rails.application.config.action_dispatch.use_authenticated_cookie_encryption = true
+# The default delivery jobs (ActionMailer::Parameterized::DeliveryJob, ActionMailer::DeliveryJob),
+# will be removed in Rails 6.1. This setting is not backwards compatible with earlier Rails versions.
+# If you send mail in the background, job workers need to have a copy of
+# MailDeliveryJob to ensure all delivery jobs are processed properly.
+# Make sure your entire app is migrated and stable on 6.0 before using this setting.
+# Rails.application.config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
 
-# Use AES-256-GCM authenticated encryption as default cipher for encrypting messages
-# instead of AES-256-CBC, when use_authenticated_message_encryption is set to true.
-# Rails.application.config.active_support.use_authenticated_message_encryption = true
-
-# Add default protection from forgery to ActionController::Base instead of in
-# ApplicationController.
-# Rails.application.config.action_controller.default_protect_from_forgery = true
-
-# Store boolean values are in sqlite3 databases as 1 and 0 instead of 't' and
-# 'f' after migrating old data.
-# Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
-
-# Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-# Rails.application.config.active_support.use_sha1_digests = true
-
-# Make `form_with` generate id attributes for any generated HTML tags.
-# Rails.application.config.action_view.form_with_generates_ids = true
+# Enable the same cache key to be reused when the object being cached of type
+# `ActiveRecord::Relation` changes by moving the volatile information (max updated at and count)
+# of the relation's cache key into the cache version to support recycling cache key.
+# Rails.application.config.active_record.collection_cache_versioning = true
