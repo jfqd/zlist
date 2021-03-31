@@ -6,4 +6,9 @@ require File.expand_path('../config/application', __FILE__)
 
 Zlist::Application.load_tasks
 
-# require 'resque/tasks'
+require 'sprockets/rails/task'
+Sprockets::Rails::Task.new(Rails.application) do |t|
+  t.environment = lambda { Rails.application.assets }
+  t.assets = %w( application.js application.css )
+  t.keep = 5
+end

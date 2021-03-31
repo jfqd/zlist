@@ -185,6 +185,8 @@ DEPENDENCIES
   rails (~> 6.0.3.6)
   responders
   sass-rails
+  sprockets (~> 4)
+  sprockets-rails
   uglifier
   will_paginate
 

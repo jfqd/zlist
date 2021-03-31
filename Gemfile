@@ -5,13 +5,14 @@ source "https://rubygems.org"
 gem "rails", "~> 6.0.3.6"
 gem 'responders'
 
-#gem 'activerecord-mysql2-adapter'
 gem "mysql2"
 
 group :assets do
   gem "sass-rails"
   gem "coffee-rails"
   gem "uglifier"
+  gem 'sprockets', '~> 4'
+  gem 'sprockets-rails', :require => 'sprockets/railtie'
 end
 
 gem "dynamic_form"
