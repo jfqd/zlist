@@ -70,7 +70,7 @@ Setup a cron entry.
 
 ## Prerequisites
 
-ZList currently runs on Rails 5.0.7.2 and requires Ruby >= 2.2.8
+ZList currently runs on Rails 5.2.5 and requires Ruby >= 2.2.8
 
 ## Contributors
 

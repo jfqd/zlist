@@ -1,8 +1,8 @@
 class ServersController < ApplicationController
 
-  before_filter :admin_required
-  before_filter :is_postmark?
-  before_filter :find_server, :only => %w(show edit update destroy)
+  before_action :admin_required
+  before_action :is_postmark?
+  before_action :find_server, :only => %w(show edit update destroy)
 
   respond_to :html
 

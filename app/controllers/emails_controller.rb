@@ -1,9 +1,9 @@
 class EmailsController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token, :only => %w(create)
-  skip_before_filter :login_required, :only => %w(create)
+  skip_before_action :verify_authenticity_token, :only => %w(create)
+  skip_before_action :login_required, :only => %w(create)
 
-  before_filter :verify_server_can_send_email, :only => %w(create)
+  before_action :verify_server_can_send_email, :only => %w(create)
 
   def create
     begin

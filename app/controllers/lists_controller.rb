@@ -1,7 +1,7 @@
 class ListsController < ApplicationController
 
-  before_filter :admin_required, :except => %w(index show subscribe unsubscribe available)
-  before_filter :find_list, :only => %w(edit send_test update destroy subscribe unsubscribe)
+  before_action :admin_required, :except => %w(index show subscribe unsubscribe available)
+  before_action :find_list, :only => %w(edit send_test update destroy subscribe unsubscribe)
 
   respond_to :html, :js
 

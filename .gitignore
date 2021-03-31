@@ -11,6 +11,9 @@ Capfile
 config/deploy*
 doc/
 public/assets/.sprockets*
+node_modules
+yarn.lock
+
 #public/assets/application-*
 #public/assets/private-*
 #public/assets/spinner*

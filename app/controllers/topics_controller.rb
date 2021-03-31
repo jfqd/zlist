@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
-  before_filter :find_list
-  before_filter :find_topic, :only => %w(show edit update destroy)
+  before_action :find_list
+  before_action :find_topic, :only => %w(show edit update destroy)
 
   def index
     @topics = @list.topics.includes(:messages).order('created_at DESC').paginate(page: params[:page], per_page: 20)
