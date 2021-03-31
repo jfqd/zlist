@@ -12,7 +12,6 @@
  * Date: 2016-05-20T17:17Z
  */
 
-
 (function( global, factory ) {
 
 	if ( typeof module === "object" && typeof module.exports === "object" ) {
@@ -11582,7 +11581,6 @@ return jQuery;
  * ========================================================== */
 
 
-
 !function ($) {
 
   "use strict"; // jshint ;_;
@@ -13845,7 +13843,6 @@ return jQuery;
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-
 
 
 
