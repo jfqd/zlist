@@ -51,7 +51,7 @@ END_DESC
         :move_on_success => ENV['move_on_success'],
         :move_on_failure => ENV['move_on_failure']
       }
-      Zlist::IMAP.check(imap_options)
+      Zlist::Imap.check(imap_options)
     end
     
   end

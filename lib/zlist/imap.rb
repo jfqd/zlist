@@ -1,7 +1,7 @@
 require 'net/imap'
 
 module Zlist
-  module IMAP
+  module Imap
     class << self
       def check(imap_options={})
         host = imap_options[:host] || '127.0.0.1'
