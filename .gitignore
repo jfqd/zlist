@@ -10,10 +10,11 @@ tmp/
 Capfile
 config/deploy*
 doc/
-public/assets/.sprockets*
+public/assets
 node_modules
 yarn.lock
 
+#public/assets/.sprockets*
 #public/assets/application-*
 #public/assets/private-*
 #public/assets/spinner*

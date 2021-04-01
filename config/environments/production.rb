@@ -26,7 +26,7 @@ Rails.application.configure do
 
   config.assets.css_compressor = :sassc
   config.assets.js_compressor  = :uglifier
-  config.assets.compile        = false
+  config.assets.compile        = true
   config.assets.digest         = true
   config.assets.gzip           = true
   config.assets.prefix         = "/assets"
