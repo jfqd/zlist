@@ -6,7 +6,7 @@ class Subscriber < ApplicationRecord
   has_many :writings, :class_name => 'Message', :foreign_key => 'subscriber_id', :dependent => :destroy
   
   validates_uniqueness_of :email
-  validates_format_of :email, :with => /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}\z/i
+  validates_format_of :email, :with => /\A[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,8}\z/i
   validates_presence_of :password, :if => :saving_password?
   validates_presence_of :name
   validates_confirmation_of :password
