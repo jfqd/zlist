@@ -18,3 +18,5 @@ yarn.lock
 #public/assets/application-*
 #public/assets/private-*
 #public/assets/spinner*
+
+config/master.key
