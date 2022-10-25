@@ -73,7 +73,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    haml (6.0.6)
+    haml (6.0.7)
       temple (>= 0.8.2)
       thor
       tilt
@@ -97,7 +97,7 @@ GEM
     minitest (5.16.3)
     mysql2 (0.5.4)
     nio4r (2.5.8)
-    nokogiri (1.13.8)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     postmark (1.22.1)
@@ -156,7 +156,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    temple (0.8.2)
+    temple (0.9.0)
     thor (1.2.1)
     thread_safe (0.3.6)
     tilt (2.0.11)
