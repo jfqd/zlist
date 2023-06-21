@@ -2,8 +2,11 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 6.0.4"
+gem "rails", "~> 6.1.7.3"
 gem 'responders'
+
+# TODO: migrate database config and swith to psych >= 4!
+gem 'psych', '~> 3.3.4'
 
 gem "mysql2"
 
@@ -28,7 +31,10 @@ end
 # gem "redis"
 # gem "resque", require: "resque/server"
 gem 'dotenv'
-
 gem "will_paginate"
+
+group :development do
+  gem 'puma'
+end
 
 # gem 'listen'
