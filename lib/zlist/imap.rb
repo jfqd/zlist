@@ -11,7 +11,7 @@ module Zlist
         move_on_failure = imap_options[:move_on_failure] || 'failure'
         move_on_success = imap_options[:move_on_success] || 'success'
         
-        imap = Net::IMAP.new(host, port, ssl)
+        imap = Net::IMAP.new(host, port: port, ssl: ssl)
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
         imap.select(folder)
         imap.search(['NOT', 'SEEN']).each do |message_id|
