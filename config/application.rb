@@ -28,7 +28,7 @@ module Zlist
     # config.i18n.default_locale = :de
 
     # Select delivery method
-    if File.exists?("#{Rails.root}/config/email.yml")
+    if File.exist?("#{Rails.root}/config/email.yml")
       # Load Mailserver settings
       config.action_mailer.perform_deliveries = true
       YAML.load(File.read("#{Rails.root}/config/email.yml"))[Rails.env].each do |key, value|
