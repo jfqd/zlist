@@ -1,15 +1,17 @@
-class MailHandler < ActionMailer::Base
+require 'mail'
+
+class MailHandler
   include ActionView::Helpers::SanitizeHelper
   
   def self.receive(email)
     email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
-    super(email)
+    new.receive(email)
   end
   
   # Processes incoming emails
   # Returns true or false on any errors
   def receive(email)
-    @email = email
+    @email = Mail.new(email)
     return false if !subscriber? && !subscribe_request?
     return false if autoreply?
     Inbound::Email.new(hash).process
