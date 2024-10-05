@@ -186,7 +186,7 @@ GEM
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
+    uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -218,4 +218,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.3.26
+   2.5.19
