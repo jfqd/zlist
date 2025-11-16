@@ -10,6 +10,10 @@ gem 'psych', '~> 3.3.4'
 
 gem "mysql2"
 
+# fix cert error with ruby 3.6.0
+# https://github.com/ruby/openssl/issues/949
+gem 'openssl', '~> 3.3.2'
+
 group :assets do
   gem "sass-rails"
   gem "coffee-rails"
