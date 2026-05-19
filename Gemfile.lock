@@ -127,7 +127,7 @@ GEM
     nokogiri (1.19.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    openssl (3.3.2)
+    openssl (3.3.3)
     postmark (1.25.1)
       json
     postmark-rails (0.22.1)
@@ -204,7 +204,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (4.0.1)
-    zeitwerk (2.7.5)
+    zeitwerk (2.8.0)
 
 PLATFORMS
   ruby
